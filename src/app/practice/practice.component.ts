@@ -85,12 +85,14 @@ export class PracticeComponent implements OnInit {
       });
     })
 
+
   }
 
 
   clickEventObservable(){
     const myBtnObservable$ = fromEvent(this.myBtn?.nativeElement, 'click');
     myBtnObservable$.subscribe(data => console.log(data));
+    console.log(this.myBtn);
 
     // const linkBtnObservable$ = fromEvent(this.linkBtn?.nativeElement, 'click');
     // linkBtnObservable$.subscribe(data => console.log(data));
