@@ -2,8 +2,12 @@
 <div *ngIf="agentName">
     {{agentName}}
 </div>
+<br>
 
 <button #myBtn (click)="clickEventObservable()">Click for Observable</button>
+<br><br>
 <a href="http://localhost:4200/" #linkBtn (mouseover)="clickLink()">Link Button</a>
-<br>
+<br><br>
 <button #showSearchComponent (click)="showSearch()">Show Search Component</button>
+<br><br>
+<button #showSubjectComponent (click)="showSubject()">Show Subject</button>

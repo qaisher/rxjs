@@ -108,4 +108,8 @@ export class PracticeComponent implements OnInit {
     this.router.navigate(['search'], {relativeTo: this.route});
   }
 
+  showSubject(){
+    this.router.navigate(['subject'], {relativeTo: this.route});
+  }
+
 }
