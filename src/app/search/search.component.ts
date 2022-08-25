@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { count, distinct, elementAt, filter, first, last, max, min, Observable, skip } from 'rxjs';
+import { count, distinct, elementAt, filter, first, forkJoin, last, map, mapTo, max, min, Observable, of, skip, zip } from 'rxjs';
 import { debounceTime, from, take, takeLast, takeWhile } from 'rxjs';
 
 @Component({
@@ -19,6 +19,24 @@ export class SearchComponent implements OnInit {
 
   numberArray = [3, 2, 6, 22, 66, 24, 63, 36];
   numberArray$: Observable<number> = from(this.numberArray);
+
+  myObs$ = new Observable(data => {
+    data.next(3);
+    data.next(1);
+    data.next(8);
+    data.complete();
+  });
+  myObs2$ = new Observable(data => {
+    data.next(56);
+    data.next(199);
+    data.next(811);
+    data.next(4038);
+    data.complete();
+  });
+
+
+  myArrObs$ = of(33, 63, 36, 83);
+
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -110,8 +128,23 @@ export class SearchComponent implements OnInit {
     this.numberArray$.pipe(
       min()
     ).subscribe(data => console.log('minimum value ', data));
+
+
+    //map and mapTo
+    this.myObs$.pipe(
+      map( (val) => Number(val)+10)
+    ).subscribe( data => console.log('mapped data ', data));
+
+    this.myObs$.pipe(
+      mapTo('received')
+    ).subscribe(data => console.log(data)); //logs the message provided in mapTo for every value
     
 
+
+    //zip and forkJoin
+    zip(this.myArrObs$, this.myObs$).subscribe(([data1, data2]) => console.log('zip operator giving values from two observables:', data1, data2));
+
+    forkJoin(this.myObs2$, this.myObs$).subscribe(([data1, data2]) => console.log('forkJoin operator:', data1, data2)); //waits for the observable to complete and gives the last values emitted by them
   }
 
   checkCondition(value: any){
